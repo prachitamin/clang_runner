@@ -1,0 +1,33 @@
+cc = clang++
+ar = ar
+tidy = clang-tidy
+
+cflags = -g -O3 -std=c++20 -W -Werror -Wall -Wconversion -Wextra -pedantic $
+  -fsanitize=address
+ldflags = 
+
+rule cc
+    command = $cc -MMD -MF $out.d $cflags -c $in -o $out
+    description = C++ $out
+    depfile = $out.d
+
+rule link
+    command = $cc $cflags $ldflags -o $out $in $libs
+    description = LNK $out
+
+rule ar
+    command = $ar rcs $out $in
+    description = LIB $out
+
+rule compdb
+    command = ninja -t compdb > $out
+    generator = true
+    description = COMPDB
+
+rule clean
+    command = ninja -t clean
+
+builddir = build
+ldflags = $ldflags -L$builddir
+
+build compile_commands.json: compdb

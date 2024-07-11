@@ -1,0 +1,16 @@
+name: ninja runner test
+on: [push]
+
+jobs:
+  job:
+    name: attempt compilation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+
+    - name: set up
+      run: |
+        sudo apt install ninja
+        ninja.build
