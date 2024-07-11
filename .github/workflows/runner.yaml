@@ -13,4 +13,4 @@ jobs:
     - name: set up
       run: |
         sudo apt install ninja-build
-        ninja.build
+        ninja
